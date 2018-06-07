@@ -9,12 +9,12 @@
 #include <math.h>
 #include <stdio.h>
 using namespace std;
-
-
+/*
 int card[500001];
 int seach[500001];
+int ans[20000002];
 
-bool twosearch(int left, int right, int searchnum)
+bool twosearch(int left, int right, int searchnum,int size)
 {
 	int mid = (left + right) / 2;
 	bool result;
@@ -23,14 +23,55 @@ bool twosearch(int left, int right, int searchnum)
 	else {
 		if (card[mid] > searchnum)
 		{
-			result = twosearch(left, mid - 1, searchnum);
+			result = twosearch(left, mid - 1, searchnum,size);
 		}
 		else if (card[mid] < searchnum)
 		{
-			result = twosearch(mid + 1, right, searchnum);
+			result = twosearch(mid + 1, right, searchnum,size);
 		}
 		else
 		{
+			//card는 정렬이 된 상태 
+			while (card[mid]==searchnum)
+			{
+				mid--;
+				if (searchnum == 0)
+				{
+					if (mid < 0)
+						break;
+				}
+			}
+			mid++;
+
+			if (searchnum < 0)
+			{
+				if (ans[abs(searchnum) + 10000000] == 0)
+				{
+					while (mid <= size && searchnum == card[mid])
+					{
+
+							ans[abs(searchnum) + 10000000]++;
+
+						mid++;
+					}
+				}
+			}
+			else
+			{
+				if (ans[searchnum] == 0)
+				{
+					while (mid <= size && searchnum == card[mid])
+					{
+
+						ans[searchnum]++;
+						
+						mid++;
+					}
+				}
+
+			}
+			
+
 			return true;
 		}
 		return result;
@@ -41,6 +82,8 @@ bool twosearch(int left, int right, int searchnum)
 
 int main()
 {	
+	//memset(ans, 10000001, sizeof(ans));
+
 	int n,m;
 	cin >> n;
 	for (int i = 0; i < n; i++)
@@ -61,19 +104,92 @@ int main()
 		int searchnum = seach[i];
 		int left = 0;
 		int right = n-1;
+		int temp = 0;
 		
-		if (twosearch(left, right, searchnum))
+		if (searchnum < 0)
 		{
-			printf("1 ");
+			temp = abs(searchnum) + 10000000;
+			if (ans[temp] != 0)
+			{
+				printf("%d ", ans[temp]);
+			}
+			else
+			{
+				if (twosearch(left, right, searchnum, n))
+				{
+					if (searchnum < 0)
+					{
+						temp = abs(searchnum) + 10000000;
+						searchnum = temp;
+					}
+					printf("%d ", ans[searchnum]);
+				}
+				else
+				{
+
+					printf("0 ");
+				}
+			}
 		}
 		else
 		{
-			printf("0 ");
+			if (ans[searchnum] == 0)
+			{
+				if (twosearch(left, right, searchnum, n))
+				{
+					printf("%d ", ans[searchnum]);
+				}
+				else
+				{
+
+					printf("0 ");
+				}
+			}
+			else
+			{
+				printf("%d ", ans[searchnum]);
+
+			}
 		}
 
 	}
 	printf("\n");
+}
+*/
 
+int temp[10000001];
+int temp2[10000001];
 
+int main()
+{
+
+	int num,n,init=0;
+	cin >> num;
+	
+	for (int i = 0; i < num; i++)
+	{
+		
+		int tm;
+		cin >> tm;
+		if (tm < 0)
+			temp2[abs(tm)]++;
+		else
+			temp[tm]++;
+	}
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		int tm;
+		cin >> tm;
+			
+		if (tm < 0)
+			cout << temp2[abs(tm)];
+		else
+			cout << temp[tm];
+
+		if (i != n - 1)
+			cout << " ";
+	}
+	cout << endl;
 
 }
