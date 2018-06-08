@@ -157,39 +157,53 @@ int main()
 }
 */
 
-int temp[10000001];
-int temp2[10000001];
+
+long long a[1000001];
+long long b[1000001];
 
 int main()
 {
-
-	int num,n,init=0;
-	cin >> num;
-	
-	for (int i = 0; i < num; i++)
-	{
-		
-		int tm;
-		cin >> tm;
-		if (tm < 0)
-			temp2[abs(tm)]++;
-		else
-			temp[tm]++;
-	}
-	cin >> n;
+	int n, m;
+	cin >> n >> m;
 	for (int i = 0; i < n; i++)
 	{
-		int tm;
-		cin >> tm;
-			
-		if (tm < 0)
-			cout << temp2[abs(tm)];
-		else
-			cout << temp[tm];
-
-		if (i != n - 1)
-			cout << " ";
+		cin >> a[i];
 	}
-	cout << endl;
+	for (int i = 0; i < m; i++)
+	{
+		cin >> b[i];
+	}
+	int c=0, d=0;
+	while (true)
+	{
+		if (c == n || d == m) break;
+		if (a[c] > b[d])
+		{
+			printf("%lld ", b[d]);
+			d++;
+		}
+		else if(a[c]<b[d])
+		{
+			printf("%lld ", a[c]);
+			c++;
+		}
+		else if (a[c] == b[d])
+		{
+			printf("%lld %lld ", b[d], a[c]);
+			d++;
+			c++;
 
+		}
+	}
+	while (c!=n)
+	{
+		printf("%lld ", a[c]);
+		c++;
+	}
+	while (d != m)
+	{
+		printf("%lld ", b[d]);
+		d++;
+	}
+	printf("\n");
 }
